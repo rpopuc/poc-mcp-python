@@ -1,0 +1,15 @@
+services:
+  app:
+    container_name: mcp_server_python
+    build: .docker/build/app
+    ports:
+      - "8030:8030"
+    volumes:
+      - ./:/app
+      - .docker/data/app/.local:/.local
+    working_dir: /app
+    tty: true
+    # extra_hosts:
+    #   - "local.test:host-gateway"
+    # command: ["python", "mcp_content_server.py"]
+    # restart: unless-stopped
