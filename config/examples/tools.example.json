@@ -1,0 +1,219 @@
+[
+  {
+    "doc": "Bearer simples (token no .env)",
+    "name": "meu-endpoint",
+    "http": {
+      "method": "GET",
+      "url": "https://api.example.com/v1/items",
+      "auth": {
+        "type": "bearer",
+        "token_env": "API_TOKEN"
+      }
+    }
+  },
+
+  {
+    "doc": "Bearer com template (ex.: token por resource/tool arg ou ENV)",
+    "name": "meu-endpoint2",
+    "args": { "token": "str" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.example.com/v1/items",
+      "auth": {
+        "type": "bearer",
+        "token_template": "{token}"
+      }
+    }
+  },
+
+  {
+    "doc": "API Key em header",
+    "name": "search",
+    "http": {
+      "method": "GET",
+      "url": "https://search.example.com",
+      "auth": {
+        "type": "api_key",
+        "in": "header",
+        "name": "X-API-Key",
+        "value_env": "SEARCH_API_KEY"
+      }
+    }
+  },
+
+  {
+    "doc": "API Key em query string",
+    "name": "maps",
+    "http": {
+      "method": "GET",
+      "url": "https://maps.example.com/geocode",
+      "auth": {
+        "type": "api_key",
+        "in": "query",
+        "name": "key",
+        "value_env": "MAPS_KEY"
+      }
+    }
+  },
+
+  {
+    "doc": "Basic Auth",
+    "name": "privatefeed",
+    "http": {
+      "method": "GET",
+      "url": "https://private.example.com/feed",
+      "auth": {
+        "type": "basic",
+        "username_env": "BASIC_USER",
+        "password_env": "BASIC_PASS"
+      }
+    }
+  },
+
+  {
+    "doc": "OAuth2 Client Credentials (com cache + refresh on 401)",
+    "name": "crm",
+    "http": {
+      "method": "POST",
+      "url": "https://api.crm.example.com/v2/contacts",
+      "auth": {
+        "type": "oauth2_client_credentials",
+        "token_url": "https://auth.example.com/oauth/token",
+        "client_id_env": "CRM_CLIENT_ID",
+        "client_secret_env": "CRM_CLIENT_SECRET",
+        "scope": "contacts.write",
+        "audience": "https://api.crm.example.com/",
+        "timeout": 10,
+        "extra": {
+          "custom_param": "abc-{SOME_ENV_OR_ARG}"
+        }
+      },
+      "response": "json"
+    }
+  },
+
+  {
+    "name": "pokemon-graphql",
+    "description": "Busca pokémons via GraphQL API",
+    "args": {
+      "name": "str"
+    },
+    "http": {
+      "method": "POST",
+      "url": "https://graphql-pokemon2.vercel.app/",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{ \"query\": \"{ pokemon(name: \\\"{name}\\\") { id name types } }\" }",
+      "response": "json"
+    }
+  },
+  {
+    "name": "create-coffee",
+    "description": "Cria um novo café na API de exemplo",
+    "args": {
+      "title": "str",
+      "description": "str"
+    },
+    "http": {
+      "method": "POST",
+      "url": "https://api.sampleapis.com/coffee/hot",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "{title}",
+        "description": "{description}"
+      },
+      "response": "json"
+    }
+  },
+  {
+    "name": "coffee-hot",
+    "description": "Lista cafés quentes",
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot",
+      "response": "json"
+    }
+  },
+  {
+    "name": "coffee-by-id",
+    "description": "Obtém café por id",
+    "args": { "id": "int" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot/{id}",
+      "response": "json"
+    }
+  },
+  {
+    "name": "coffee-search",
+    "description": "Busca cafés por termo (fake filter no cliente)",
+    "args": { "q": "str" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot",
+      "response": "json",
+      "filter": {
+        "path": "$[*]",
+        "where_contains": { "title": "{q}" }
+      }
+    }
+  },
+
+  {
+    "doc": "application/x-www-form-urlencoded (login clássico)",
+    "name": "auth_login",
+    "description": "Login x-www-form-urlencoded",
+    "args": { "username": "str", "password": "str" },
+    "http": {
+      "method": "POST",
+      "url": "https://example.com/api/login",
+      "form": {
+        "username": "{username}",
+        "password": "{password}"
+      },
+      "response": "json"
+    }
+  },
+
+ {
+    "doc": "multipart/form-data com arquivo + campos de texto",
+    "name": "upload_avatar",
+    "description": "Envia avatar via multipart/form-data",
+    "args": { "path": "str", "user_id": "int" },
+    "http": {
+      "method": "POST",
+      "url": "https://api.example.com/users/{user_id}/avatar",
+      "multipart": {
+        "avatar": {
+          "file": "{path}",
+          "filename": "avatar-{user_id}.png",
+          "content_type": "image/png",
+          "max_mb": 5
+        },
+        "note": "Enviado pelo MCP"
+      },
+      "response": "json",
+      "timeout": 30
+    }
+  },
+
+  {
+    "doc": "multipart/form-data só com partes texto (API que exige multipart mas sem arquivo)",
+    "name": "create_ticket",
+    "description": "Cria ticket via multipart (texto)",
+    "args": { "title": "str", "body": "str", "priority": "str" },
+    "http": {
+      "method": "POST",
+      "url": "https://helpdesk.example.com/tickets",
+      "multipart": {
+        "title": "{title}",
+        "body": "{body}",
+        "priority": "{priority}"
+      },
+      "response": "json"
+    }
+  }
+]

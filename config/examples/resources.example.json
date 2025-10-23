@@ -1,0 +1,38 @@
+[
+  {
+    "doc": "Static http resource",
+    "uri": "content://coffee/hot",
+    "description": "Lista cafés (recurso concreto)",
+    "mime_type": "application/json",
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot",
+      "response": "json"
+    }
+  },
+  {
+    "doc": "Dynamic http resource",
+    "uri": "content://coffee/{id}",
+    "description": "Café por id (resource template)",
+    "mime_type": "application/json",
+    "args": { "id": "int" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot/{id}",
+      "response": "json"
+    }
+  },
+  {
+    "doc": "Dynamic markdown http resource",
+    "uri": "content://md/{q}",
+    "description": "Retorna markdown (exemplo text/markdown)",
+    "mime_type": "text/markdown",
+    "args": { "q": "str" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.example.com/search",
+      "query": { "q": "{q}" },
+      "response": "text"
+    }
+  }
+]

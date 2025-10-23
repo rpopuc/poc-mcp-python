@@ -1,0 +1,24 @@
+[
+  {
+    "doc": "Static prompt",
+    "name": "generate-dsl",
+    "description": "Converte NL para DSL da content-search",
+    "content": "Você converte pedidos em linguagem natural para uma query DSL usável pela tool 'content-search'. Inclua apenas a string DSL final."
+  },
+  {
+    "doc": "HTTP prompt",
+    "name": "coffee-suggest",
+    "description": "Sugere cafés a partir de um termo",
+    "args": { "q": "str" },
+    "http": {
+      "method": "GET",
+      "url": "https://api.sampleapis.com/coffee/hot",
+      "response": "json",
+      "filter": { "where_contains": { "title": "{q}" } }
+    },
+    "render": {
+      "mode": "text",
+      "template": "Sugestões para \"{q}\": {titles}"
+    }
+  }
+]
