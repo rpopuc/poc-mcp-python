@@ -31,7 +31,7 @@ docker-compose up -d
 Depois, é necessário instalar as dependências, dentro do container:
 
 ```bash
-docker-compose exec app bash -c 'pip install -r requirements.txt'
+docker-compose exec --user 1000 app bash -c 'pip install -r requirements.txt'
 ```
 
 ---
@@ -71,7 +71,7 @@ CRM_CLIENT_SECRET=def456
 ## 🚀 Execução
 
 ```bash
-python mcp_server.py
+docker-compose exec app python mcp-server.py
 ```
 
 Saída esperada:
