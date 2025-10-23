@@ -25,7 +25,13 @@ Suporta:
 ## 📦 Instalação
 
 ```bash
-pip install mcp fastapi uvicorn httpx python-dotenv
+docker-compose up -d
+```
+
+Depois, é necessário instalar as dependências, dentro do container:
+
+```bash
+docker-compose exec app bash -c 'pip install -r requirements.txt'
 ```
 
 ---
